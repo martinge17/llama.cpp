@@ -12,7 +12,7 @@ steps:
       # Just build all before running the tests
       ninja
       # Run the tests storing the profiling information in separate files (default-<PID>.profraw)
-      LLVM_PROFILE_FILE=default-%p.profraw ninja test
+      LLVM_PROFILE_FILE=default-%p.profraw ninja test --output-on-failure
       # Merge all the reports in a single dfile
       llvm-profdata merge -sparse default-*.profraw -o final.profdata
       # Generate the HTML report with source file information in the `report_html` dir
