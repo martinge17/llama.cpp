@@ -1,6 +1,9 @@
 steps:
   - name: build
     image: ubuntu:latest
+    environment:
+      CC: /usr/bin/clang-15
+      CXX: /usr/bin/clang++-15
     commands: |
       apt-get update && apt install -y build-essential gcc ninja-build cmake clang-15
       # Let's create a build with coverage instrumentalization to generate a coverage report
