@@ -1,14 +1,14 @@
 steps:
   - name: build
     image: ubuntu:latest
-    environment:
-      CC: /usr/bin/clang-15
-      CXX: /usr/bin/clang++-15
+    #environment:
+    #  CC: /usr/bin/clang-15
+    #  CXX: /usr/bin/clang++-15
     commands: |
-      apt-get update && apt install -y build-essential gcc ninja-build cmake clang-15
+      apt-get update && apt install -y build-essential gcc ninja-build cmake clang
       # Let's create a build with coverage instrumentalization to generate a coverage report
       mkdir build
-      CFLAGS="-fprofile-instr-generate -fcoverage-mapping" CXXFLAGS="-fprofile-instr-generate -fcoverage-mapping" cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ /woodpecker/src/github.com/martinge17/llama.cpp
+      CFLAGS="-fprofile-instr-generate -fcoverage-mapping" CXXFLAGS="-fprofile-instr-generate -fcoverage-mapping" cmake -GNinja -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ /woodpecker/src/github.com/martinge17/llama.cpp
       # Just build all before running the tests
       ninja
       # Run the tests storing the profiling information in separate files (default-<PID>.profraw)
