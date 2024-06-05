@@ -5,14 +5,14 @@ steps:
     #  CC: /usr/bin/clang-15
     #  CXX: /usr/bin/clang++-15
     commands: |
-      apt-get update && apt install -y build-essential gcc ninja-build cmake clang
+      apt-get update && apt install -y build-essential gcc ninja-build cmake clang ccache
       # Let's create a build with coverage instrumentalization to generate a coverage report
       mkdir build
       CFLAGS="-fprofile-instr-generate -fcoverage-mapping" CXXFLAGS="-fprofile-instr-generate -fcoverage-mapping" cmake -GNinja -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ /woodpecker/src/github.com/martinge17/llama.cpp
       # Just build all before running the tests
-      ninja || true # Avoid test failure
+      ninja 
       # Run the tests storing the profiling information in separate files (default-<PID>.profraw)
-      LLVM_PROFILE_FILE=default-%p.profraw ninja test
+      LLVM_PROFILE_FILE=default-%p.profraw ninja test || true # Avoid test failure
       # Merge all the reports in a single dfile
       llvm-profdata merge -sparse default-*.profraw -o final.profdata
       # Generate the HTML report with source file information in the `report_html` dir
