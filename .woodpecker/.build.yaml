@@ -16,4 +16,10 @@ steps:
       # Merge all the reports in a single dfile
       /usr/bin/llvm-profdata merge -sparse default-*.profraw -o final.profdata
       # Generate the HTML report with source file information in the `report_html` dir
-      /usr/bin/llvm-cov show -instr-profile=final.profdata --format=html -o report_html bin/test-grammar-integration
+      /usr/bin/llvm-cov show -instr-profile=final.profdata --format=html -o /etc/report_html bin/test-grammar-integration
+
+    volumes:
+      - /home/martin/Documents/devops/automation/CI/Woodpecker/TEST/SALIDA/:/etc/report_html
+  
+
+
